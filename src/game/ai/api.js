@@ -1,4 +1,4 @@
-import { post } from 'axios';
+import axios from 'axios';
 import { API_URL } from '../../config';
 import { FIELD_VALUES } from '../game-logic/const';
 
@@ -16,7 +16,7 @@ export const getNextMove = async (boardState) => {
         .flat(Infinity)
         .map((field) => (field === FIELD_VALUES.EMPTY ? '' : field));
 
-    const response = await post(`${API_URL}/move`, {
+    const response = await axios.post(`${API_URL}/move`, {
         board: `[${board.map((value) => `"${value}"`).join(',')}]`
     });
     let { nextMove } = response.data;
