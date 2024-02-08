@@ -1,11 +1,11 @@
 import { 
     GameWrapper, GameInfoWrapper,
-    Board, GameHistory, Status
+    Map, GameHistory, Status
  } from './components';
 
 export const Game = () => (
     <GameWrapper>
-        <Board />
+        <Map />
 
         <GameInfoWrapper>
             <Status />

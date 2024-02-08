@@ -39,3 +39,5 @@ const generateWinningLines = (boardSize) => {
 
     return winningLines;
 }
+
+export const getUserLocation = () => new Promise((resolve) => navigator.geolocation.getCurrentPosition(resolve));

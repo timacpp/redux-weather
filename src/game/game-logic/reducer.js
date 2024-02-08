@@ -8,7 +8,8 @@ export const GAME_LOGIC_REDUCER_NAME = 'gameLogic';
 const initialState = {
     board: generateBoard(DEFAULT_BOARD_SIZE),
     currentPlayer: STARTING_PLAYER,
-    boardSize: DEFAULT_BOARD_SIZE
+    boardSize: DEFAULT_BOARD_SIZE,
+    userLocation: [53, 9]
 }
 
 const gameLogicSlice = createSlice({
@@ -36,6 +37,14 @@ const gameLogicSlice = createSlice({
             state.board = generateBoard(payload);
             state.currentPlayer = STARTING_PLAYER;
             state.boardSize = payload
+        },
+        setUserLocation: (state, { payload }) => {
+            state.userLocation = payload;
+            state.cities = state.cities;
+        },
+        setCities: (state, { payload }) => {
+            state.userLocation = state.userLocation;
+            state.cities = payload;
         }
     },
     extraReducers: (builder) => {
@@ -48,7 +57,10 @@ const gameLogicSlice = createSlice({
 
 export const makeMoveRequest = createAction(`${GAME_LOGIC_REDUCER_NAME}/makeMoveRequest`)
 
-export const { makeMove, setBoardSize } = gameLogicSlice.actions;
+export const { makeMove, setBoardSize, setUserLocation } = gameLogicSlice.actions;
 
 export const gameLogicReducer = gameLogicSlice.reducer;
 
+export const initializeUserLocation = createAction(`${GAME_LOGIC_REDUCER_NAME}/initializeUserLocation`);
+
+export const getCitiesInRadius = createAction(`${GAME_LOGIC_REDUCER_NAME}/getCitiesInRadius`)
