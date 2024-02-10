@@ -1,7 +1,7 @@
 import { combineEpics } from 'redux-observable';
 
-import { gameEpics } from './game/game-logic/epics';
+import { mapEpics } from './map/epics';
 
 export const rootEpic = combineEpics(
-    gameEpics, 
+    mapEpics
 );

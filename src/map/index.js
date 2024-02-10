@@ -1,14 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { userLocationSelector, citiesSelector } from '../../game-logic/selectors';
-import { initializeUserLocation, getCitiesInRadius } from '../../game-logic/reducer';
+import { userLocationSelector, citiesSelector } from './selectors';
+import { initializeUserLocation, getCitiesInRadius } from './reducer';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 export const Map = () => {
     const userLocation = useSelector(userLocationSelector);
-    const cities = useSelector(citiesSelector);
+    const cities = [];
 
     const dispatch = useDispatch();
 
@@ -24,6 +24,12 @@ export const Map = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; OpenStreetMap contributors'
           />
+
+          {cities.forEach((city) => 
+            <Marker position={city.position}>
+
+            </Marker>
+          )}
         </MapContainer>
     );
 }
