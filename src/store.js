@@ -11,7 +11,7 @@ export const store = configureStore({
     reducer: {
         [MAP_LOGIC_REDUCER_NAME]: mapLogicReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(epicMiddleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(epicMiddleware)
 });
 
 epicMiddleware.run(rootEpic);

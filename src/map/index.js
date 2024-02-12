@@ -1,17 +1,40 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import L from 'leaflet'
+import twemoji from 'twemoji';
 
-import { userLocationSelector, citiesSelector } from './selectors';
-import { initializeUserLocation, getCitiesInRadius } from './reducer';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { useSelector, useDispatch } from 'react-redux';
+import { MapContainer, TileLayer, Marker, Tooltip, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
+import { userLocationSelector, citiesSelector } from './selectors';
+import { initializeUserLocation, getLargestCitiesInBounds } from './reducer';
+
+const CityMarkers = () => {
+  const dispatch = useDispatch();
+  const cities = useSelector(citiesSelector);
+  const map = useMapEvents({
+    moveend() {
+      const bounds = map.getBounds();
+      dispatch(getLargestCitiesInBounds(bounds));
+    },
+  });
+
+  const emojiImg = twemoji.parse('\u2764\uFE0F', { size: 16 });
+  const icon = L.divIcon({ html: emojiImg });
+
+  return cities.map((city, id) => (
+    <Marker key={`city-${id}`} position={city.position} icon={icon}>
+        <Tooltip>{city.name}</Tooltip>
+    </Marker>
+  ));
+}
+
+
 export const Map = () => {
-    const userLocation = useSelector(userLocationSelector);
-    const cities = [];
-
     const dispatch = useDispatch();
-
+    const userLocation = useSelector(userLocationSelector);
+    const cities = useSelector(citiesSelector);
+    
     return (
         <MapContainer
           key={userLocation}
@@ -25,11 +48,8 @@ export const Map = () => {
             attribution='&copy; OpenStreetMap contributors'
           />
 
-          {cities.forEach((city) => 
-            <Marker position={city.position}>
+          <CityMarkers cities={cities}/>
 
-            </Marker>
-          )}
         </MapContainer>
     );
 }
