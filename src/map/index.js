@@ -4,6 +4,7 @@ import twemoji from 'twemoji';
 import { useSelector, useDispatch } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import { ThemeProvider } from 'styled-components';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import 'leaflet/dist/leaflet.css';
 
 import { MapContainerWrapper, darkTheme, lightTheme } from './themes';
@@ -32,7 +33,7 @@ const CityMarkers = () => {
           <Popup>
             <b>{city.name}</b><br/><br/>
             Temperature: {city.temperature}<br/>
-            Precipation: {city.rain}<br/>
+            Pressure mm: {city.pressure}<br/>
             </Popup>
       </Marker>
   ));
@@ -70,6 +71,15 @@ export const Map = () => {
             <button onClick={() => dispatch(invertMode())}>
                 {darkMode ? "Light mode" : "Dark mode"}
             </button>
+            <LineChart width={500} height={300} data={cities}>
+              <XAxis dataKey="name"/>
+              <YAxis/>
+              <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
+              <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
+              <Line type="monotone" dataKey="pressure" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="emoji" stroke="#82ca9d" />
+            </LineChart>
           </ThemeProvider>
+          
     );
 }

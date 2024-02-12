@@ -52,7 +52,7 @@ export const getCityWeatherViaWeatherApi = (cityName) => {
   return axios.post(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(cityName)}&aqi=no`)
         .then(response => ({
           temperature: response.data.current.temp_c,
-          rain: response.data.current.precip_mm,
+          pressure: response.data.current.precip_mm,
           emoji: getEmojiForWeather(response.data.current.temp_c, response.data.current.precip_mm)
         }))
         .catch(error => console.log(`Error fetching weather: ${error}`))
