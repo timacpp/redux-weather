@@ -4,8 +4,7 @@ export const MAP_LOGIC_REDUCER_NAME = 'mapLogic';
 
 const initialState = {
     userLocation: [53, 9],
-    cities: [],
-    loading: false
+    cities: []
 }
 
 const mapLogicSlice = createSlice({
