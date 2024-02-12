@@ -12,3 +12,13 @@ export const citiesSelector = createSelector(
     selectMapState,
     ({ cities }) => cities
 );
+
+export const versionSelector = createSelector(
+    selectMapState,
+    ({ version }) => version
+);
+
+export const darkModeSelector = createSelector(
+    selectMapState,
+    ({ darkMode }) => darkMode
+);

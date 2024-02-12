@@ -1,7 +1,10 @@
 import { ThemeProvider } from 'styled-components';
-import { theme } from './theme';
 import { GlobalStyle } from './global-styles';
 import { Map } from './map'
+
+const theme = {
+    background: "#3e3e42"
+}
 
 export const App = () => {
     return (

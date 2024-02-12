@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+export const GOOD_WEATHER = 0;
+export const PASSABLE_WEATHER = 1;
+export const BAD_WEATHER = 2;
+
 export const getLocationViaGeolocationApi = () => new Promise((resolve) => navigator.geolocation.getCurrentPosition(resolve));
 
 export const getCitiesViaOverpassApi = (bounds) => {
@@ -29,18 +33,27 @@ export const getCitiesViaOverpassApi = (bounds) => {
         .catch(error => console.log(`Error fetching cities: ${error}`))
 }
 
-export const NICE_WEATHER = 0;
-export const PASSABLE_WEATHER = 1;
-export const BAD_WEATHER = 2;
-
 const WEATHER_API_KEY=process.env.REACT_APP_WEATHER_API_KEY;
+
+function getEmojiForWeather(temperature, pressure) {
+  const goodTemperature = temperature >= 18 && temperature <= 25;
+  const noRain = pressure < 0.4;
+
+  if (goodTemperature && noRain) {
+    return "🤩";
+  } else if (goodTemperature || noRain) {
+    return "🙄";
+  } else {
+    return "😭";
+  }
+}
 
 export const getCityWeatherViaWeatherApi = (cityName) => {
   return axios.post(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(cityName)}&aqi=no`)
         .then(response => ({
           temperature: response.data.current.temp_c,
           rain: response.data.current.precip_mm,
-          type: (response.data.current.precip_mm > 0.5) + (response.data.current.temp_c < 18 || response.data.current.temp_c > 25)
+          emoji: getEmojiForWeather(response.data.current.temp_c, response.data.current.precip_mm)
         }))
         .catch(error => console.log(`Error fetching weather: ${error}`))
 }
