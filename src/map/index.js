@@ -2,7 +2,7 @@ import React from 'react';
 import L from 'leaflet'
 import twemoji from 'twemoji';
 import { useSelector, useDispatch } from 'react-redux';
-import { MapContainer, TileLayer, Marker, Tooltip, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import { ThemeProvider } from 'styled-components';
 import 'leaflet/dist/leaflet.css';
 
@@ -29,11 +29,11 @@ const CityMarkers = () => {
 
   return cities.map((city) => (
     <Marker key={city.name} position={city.position} icon={L.divIcon({ html: twemoji.parse(city.emoji, { size: 16 })})}>
-          <Tooltip>
+          <Popup>
             <b>{city.name}</b><br/><br/>
             Temperature: {city.temperature}<br/>
             Precipation: {city.rain}<br/>
-            </Tooltip>
+            </Popup>
       </Marker>
   ));
 }
